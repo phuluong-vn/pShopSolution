@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pShopSolution.Data.EF;
 
 namespace pShopSolution.Data.Migrations
 {
     [DbContext(typeof(PShopDbContext))]
-    partial class PShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201118032337_Seeddata")]
+    partial class Seeddata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +104,7 @@ namespace pShopSolution.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Caegories");
 
                     b.HasData(
                         new
@@ -284,7 +286,7 @@ namespace pShopSolution.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 11, 18, 10, 27, 22, 973, DateTimeKind.Local).AddTicks(9789));
+                        .HasDefaultValue(new DateTime(2020, 11, 18, 10, 23, 36, 326, DateTimeKind.Local).AddTicks(3448));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -373,7 +375,7 @@ namespace pShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreate = new DateTime(2020, 11, 18, 10, 27, 22, 998, DateTimeKind.Local).AddTicks(5561),
+                            DateCreate = new DateTime(2020, 11, 18, 10, 23, 36, 353, DateTimeKind.Local).AddTicks(264),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
