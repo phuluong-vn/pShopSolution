@@ -16,11 +16,9 @@ namespace pShopSolution.Application.Catalog.Products
 
         Task<bool> UpdatePrice(int productId, decimal newPrice);
 
-        Task<int> UpdateStock(int productid, int addedQuantity);
+        Task<bool> UpdateStock(int productid, int addedQuantity);
 
         Task<int> AddViewCount(int productId);
-
-        Task<List<ProductViewModel>> GetAll();
 
         Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
     }

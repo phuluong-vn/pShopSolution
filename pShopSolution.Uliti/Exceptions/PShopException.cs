@@ -4,18 +4,18 @@ using System.Text;
 
 namespace pShopSolution.Utilities.Exceptions
 {
-    public class EShopException : Exception
+    public class PShopException : Exception
     {
-        public EShopException()
+        public PShopException()
         {
         }
 
-        public EShopException(string message)
+        public PShopException(string message)
             : base(message)
         {
         }
 
-        public EShopException(string message, Exception inner)
+        public PShopException(string message, Exception inner)
             : base(message, inner)
         {
         }
