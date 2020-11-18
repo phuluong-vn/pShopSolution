@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using pShopSolution.Data.Entities;
 using pShopSolution.Data.Enum;
 using System;
@@ -66,6 +67,40 @@ namespace pShopSolution.Data.Extensions
                 new ProductTranslation() {Id=1, ProductId = 1, Name = "Áo sơ mi nam Việt Tiến", LanguageId = "vi-VN", SeoAlias = "ao-so-mi-nam-Viet-Tien", SeoDescription = "Sản phẩm thời trang áo sơ mi nam Việt Tiến", SeoTitle = "Sản phẩm thời trang áo sơ mi nam Việt Tiến", Details = "Sản phẩm thời trang áo sơ mi nam Việt Tiến", Description = "Sản phẩm thời trang áo sơ mi nam Việt Tiến" },
                 new ProductTranslation() {Id=2, ProductId = 1, Name = "Viet Tien Men T-Shirt", LanguageId = "en-US", SeoAlias = "viet-tien-men-t-shirt", SeoDescription = "The Viet Tien shirt product for men", SeoTitle = "The Viet Tien shirt product for men", Details = "The Viet Tien t-shirt product for men", Description = "The Viet Tien t-shirt product for men" }
             );
+
+            var RoleID = new Guid("B0EEED3D-5092-4789-A760-E252AA217E3C");
+            var AdminID = new Guid("30DCD73B-C849-44AC-BCA3-E48E2843691B");
+            // any guid, but nothing is against to use the same one
+
+            modelBuilder.Entity<AppRole>().HasData(new AppRole
+            {
+                Id = RoleID,
+                Name = "admin",
+                NormalizedName = "admin",
+                Description ="Administrator role"
+            });
+
+            var hasher = new PasswordHasher<AppUser>();
+            modelBuilder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = AdminID,
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "phuluong2019@gmail.com",
+                NormalizedEmail = "phuluong2019@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+                SecurityStamp = string.Empty,
+                FirstName = "Phú",
+                LastName = "Lương",
+                Dob = new DateTime(2020, 02, 10)
+            }); ;
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            {
+                RoleId = RoleID,
+                UserId = AdminID
+            });
         }
     }
 }
