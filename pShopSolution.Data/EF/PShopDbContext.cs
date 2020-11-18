@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using pShopSolution.Data.Configurations;
 using pShopSolution.Data.Entities;
+using pShopSolution.Data.Extensions;
 
 namespace pShopSolution.Data.EF
 {
@@ -10,8 +11,10 @@ namespace pShopSolution.Data.EF
         : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Configuration using Fluent API
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -25,6 +28,9 @@ namespace pShopSolution.Data.EF
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+            //Data seeding
+            modelBuilder.Seed();
 
             //base.OnModelCreating(modelBuilder);
         }
