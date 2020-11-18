@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace pShopSolution.Application.Catalog.Products.Dtos
+namespace pShopSolution.Application.Catalog.Products.Dtos.Manage
 {
-    public class ProductViewModel
+    public class ProductCreateRequest
     {
-        public int Id { get; set; }
         public decimal Price { get; set; }
         public decimal OriginalPrice { get; set; }
         public int Stock { get; set; }
@@ -16,7 +15,7 @@ namespace pShopSolution.Application.Catalog.Products.Dtos
         public string Details { set; get; }
         public string SeoDescription { set; get; }
         public string SeoTitle { set; get; }
-        public int ViewCount { get; set; }
+
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
     }
