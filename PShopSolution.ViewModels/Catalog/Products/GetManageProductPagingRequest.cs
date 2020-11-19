@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PShopSolution.ViewModels.Catalog.Products.Manage
+namespace PShopSolution.ViewModels.Catalog.Products
 {
-    public class GetProductPagingRequest : PagingRequestBase
+    public class GetManageProductPagingRequest : PagingRequestBase
     {
         public string Keywork { get; set; }
         public List<int> CategoryIds { get; set; }

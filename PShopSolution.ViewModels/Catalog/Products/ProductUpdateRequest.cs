@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace PShopSolution.ViewModels.Catalog.Products.Manage
+namespace PShopSolution.ViewModels.Catalog.Products
 {
     public class ProductUpdateRequest
     {
