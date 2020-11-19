@@ -1,12 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\pShopSolution.Data\pShopSolution.Data.csproj" />
     <ProjectReference Include="..\pShopSolution.Uliti\pShopSolution.Utilities.csproj" />
+    <ProjectReference Include="..\PShopSolution.ViewModels\PShopSolution.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

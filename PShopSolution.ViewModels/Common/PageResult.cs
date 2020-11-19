@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace pShopSolution.Application.Dtos
+namespace PShopSolution.ViewModels.Common
 {
     public class PageResult<T>
     {

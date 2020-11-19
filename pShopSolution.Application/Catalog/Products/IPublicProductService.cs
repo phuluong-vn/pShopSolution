@@ -1,6 +1,6 @@
-﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.Application.Catalog.Products.Dtos.Public;
-using pShopSolution.Application.Dtos;
+﻿using PShopSolution.ViewModels.Catalog.Products;
+using PShopSolution.ViewModels.Catalog.Products.Public;
+using PShopSolution.ViewModels.Common;
 using System.Threading.Tasks;
 
 namespace pShopSolution.Application.Catalog.Products
