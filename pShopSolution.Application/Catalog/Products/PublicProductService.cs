@@ -1,11 +1,10 @@
-﻿using pShopSolution.Application.Catalog.Products.Dtos;
-using pShopSolution.Application.Catalog.Products.Dtos.Public;
-using pShopSolution.Application.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
 using pShopSolution.Data.EF;
-using System;
-using System.Threading.Tasks;
+using PShopSolution.ViewModels.Catalog.Products;
+using PShopSolution.ViewModels.Catalog.Products.Public;
+using PShopSolution.ViewModels.Common;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace pShopSolution.Application.Catalog.Products
 {
@@ -17,6 +16,7 @@ namespace pShopSolution.Application.Catalog.Products
         {
             _context = context;
         }
+
         public async Task<PageResult<ProductViewModel>> GetAllByCategoryID(GetProductPagingRequest request)
         {
             //1. Select join
@@ -26,8 +26,7 @@ namespace pShopSolution.Application.Catalog.Products
                         join c in _context.Categories on pic.CategoryId equals c.Id
                         select new { p, pt, pic };
 
-           
-            if (request.CategoryId >0)
+            if (request.CategoryId > 0)
             {
                 query = query.Where(x => x.pic.CategoryId == request.CategoryId);
             }
@@ -51,7 +50,6 @@ namespace pShopSolution.Application.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount
-
                 }).ToListAsync();
 
             //4. Select and projection
