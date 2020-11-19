@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using pShopSolution.Application.Catalog.Products.Dtos.Manage;
 using pShopSolution.Application.Common;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Exceptions;
 using PShopSolution.ViewModels.Catalog.Products;
-using PShopSolution.ViewModels.Catalog.Products.Manage;
 using PShopSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -95,7 +93,7 @@ namespace pShopSolution.Application.Catalog.Products
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request)
+        public async Task<PageResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
         {
             //1. Select join
             var query = from p in _context.Products
@@ -166,7 +164,7 @@ namespace pShopSolution.Application.Catalog.Products
             if (request.ThumbnailImage != null)
             {
                 var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.IsDefault == true && x.ProductId == request.Id);
-                if(thumbnailImage!=null)
+                if (thumbnailImage != null)
                 {
                     thumbnailImage.FileSize = request.ThumbnailImage.Length;
                     thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);

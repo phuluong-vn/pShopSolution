@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using pShopSolution.Application.Catalog.Products.Dtos.Manage;
 using PShopSolution.ViewModels.Catalog.Products;
-using PShopSolution.ViewModels.Catalog.Products.Manage;
 using PShopSolution.ViewModels.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,7 +20,7 @@ namespace pShopSolution.Application.Catalog.Products
 
         Task<int> AddViewCount(int productId);
 
-        Task<PageResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+        Task<PageResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
 
         Task<int> AddImages(int productId, List<IFormFile> files);
 

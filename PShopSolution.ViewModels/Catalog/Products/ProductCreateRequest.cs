@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 
-namespace pShopSolution.Application.Catalog.Products.Dtos.Manage
+namespace pShopSolution.Application.Catalog.Products
 {
     public class ProductCreateRequest
     {
