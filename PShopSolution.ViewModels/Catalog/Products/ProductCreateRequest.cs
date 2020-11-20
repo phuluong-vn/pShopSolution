@@ -8,7 +8,6 @@ namespace pShopSolution.Application.Catalog.Products
         public decimal Price { get; set; }
         public decimal OriginalPrice { get; set; }
         public int Stock { get; set; }
-        public DateTime DateCreate { get; set; }
         public string Name { set; get; }
         public string Description { set; get; }
         public string Details { set; get; }

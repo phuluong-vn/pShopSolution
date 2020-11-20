@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
+using pShopSolution.Application.Common;
 using pShopSolution.Data.EF;
 using pShopSolution.Utilities.Constants;
 using System;
@@ -28,7 +29,10 @@ namespace pShopSolution.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
             //Declare DI
+            services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
+
 
             services.AddControllersWithViews();
 
