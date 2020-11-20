@@ -10,6 +10,7 @@ using pShopSolution.Application.Common;
 using pShopSolution.Data.EF;
 using pShopSolution.Utilities.Constants;
 using System;
+using System.Linq;
 
 namespace pShopSolution.BackendApi
 {
@@ -33,7 +34,6 @@ namespace pShopSolution.BackendApi
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
 
-
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
@@ -44,6 +44,7 @@ namespace pShopSolution.BackendApi
                     Title = "ToDo API",
                     Description = "A simple example ASP.NET Core Web API",
                 });
+                // c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 
@@ -63,17 +64,15 @@ namespace pShopSolution.BackendApi
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRouting();
+
+            app.UseAuthorization();
             //add swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger PShopSolutionAPI");
             });
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
