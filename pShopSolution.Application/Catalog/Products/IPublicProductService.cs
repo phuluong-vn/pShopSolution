@@ -8,6 +8,6 @@ namespace pShopSolution.Application.Catalog.Products
     public interface IPublicProductService
     {
         Task<PageResult<ProductViewModel>> GetAllByCategoryID(GetPublicProductPagingRequest request);
-        Task<List<ProductViewModel>> GetAll();
+        Task<List<ProductViewModel>> GetAll(string languageId);
     }
 }

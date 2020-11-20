@@ -20,9 +20,10 @@ namespace pShopSolution.Application.Catalog.Products
         private readonly PShopDbContext _context;
         private readonly IStorageService _storageService;
 
-        public ManageProductService(PShopDbContext context)
+        public ManageProductService(PShopDbContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
 
         public Task<int> AddImages(int productId, List<IFormFile> files)
@@ -76,7 +77,8 @@ namespace pShopSolution.Application.Catalog.Products
                 };
             }
             _context.Products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int productId)
@@ -138,6 +140,29 @@ namespace pShopSolution.Application.Catalog.Products
                 Items = data
             };
             return pageResult;
+        }
+
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId)  ;
+
+            var productViewmodel = new ProductViewModel()
+            {
+                Id = product.Id,
+                DateCreate = product.DateCreate,
+                Description = productTranslation != null ? productTranslation.Description : null,
+                LanguageId = productTranslation != null ? productTranslation.LanguageId :null,
+                Details = productTranslation != null ? productTranslation.Details : null,
+                Name = productTranslation != null ? productTranslation.Name :null,
+                Price = product.Price,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount,
+                SeoAlias = productTranslation != null ? productTranslation.SeoAlias :null,
+                SeoDescription = productTranslation != null ?productTranslation.SeoDescription : null,
+                SeoTitle = productTranslation != null ? productTranslation.SeoTitle :null,
+            };
+            return productViewmodel;
         }
 
         public Task<List<ProductImageViewModel>> GetListImage(int productId)

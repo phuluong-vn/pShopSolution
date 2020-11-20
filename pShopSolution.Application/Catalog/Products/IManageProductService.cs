@@ -29,5 +29,7 @@ namespace pShopSolution.Application.Catalog.Products
         Task<int> UpdateImages(int imageId, string caption, bool isDefault);
 
         Task<List<ProductImageViewModel>> GetListImage(int productId);
+
+        Task<ProductViewModel> GetById(int productId, string languageId);
     }
 }
