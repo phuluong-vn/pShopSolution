@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ using pShopSolution.Application.System;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Constants;
+using PShopSolution.ViewModels.System;
 using System.Collections.Generic;
 
 namespace pShopSolution.BackendApi
@@ -47,7 +49,11 @@ namespace pShopSolution.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddControllersWithViews().AddFluentValidation();
+            //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterRequestValidator>());
 
             services.AddSwaggerGen(c =>
             {
