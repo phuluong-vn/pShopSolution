@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Application.Common;
+using pShopSolution.Application.System;
 using pShopSolution.Data.EF;
+using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Constants;
 using System;
 using System.Linq;
@@ -29,10 +32,18 @@ namespace pShopSolution.BackendApi
             services.AddDbContext<PShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<PShopDbContext>()
+                .AddDefaultTokenProviders();
+
             //Declare DI
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddControllersWithViews();
 
