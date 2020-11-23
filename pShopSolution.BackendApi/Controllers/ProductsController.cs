@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using pShopSolution.Application.Catalog.Products;
 using PShopSolution.ViewModels.Catalog.ProductImages;
 using PShopSolution.ViewModels.Catalog.Products;
@@ -29,6 +30,7 @@ namespace pShopSolution.BackendApi.Controllers
 
         //https:localhost:port/product/1
         [HttpGet("{productId}/{languageId}")]
+        [Authorize]
         public async Task<IActionResult> GetProductById(int productId, string languageId)
         {
             var product = await _manageProductService.GetById(productId, languageId);
