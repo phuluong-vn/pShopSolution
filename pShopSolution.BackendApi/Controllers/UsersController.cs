@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pShopSolution.Application.System;
-using PShopSolution.ViewModels.System;
+using PShopSolution.ViewModels.System.Users;
 using System.Threading.Tasks;
 
 namespace pShopSolution.BackendApi.Controllers
@@ -28,7 +28,7 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest("Username or password is incorrect.");
             }
-            return Ok(new { token = resultToken });
+            return Ok(resultToken);
         }
 
         [HttpPost("register")]

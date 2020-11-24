@@ -16,7 +16,7 @@ using pShopSolution.Application.System;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Constants;
-using PShopSolution.ViewModels.System;
+using PShopSolution.ViewModels.System.Users;
 using System.Collections.Generic;
 
 namespace pShopSolution.BackendApi

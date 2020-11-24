@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PShopSolution.ViewModels.System
+namespace PShopSolution.ViewModels.System.Users
 {
     public class RegisterRequest
     {
