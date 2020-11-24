@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace pShopSolution.Application.Catalog.Products
 {
-    public interface IManageProductService //định nghĩa các phương thức
+    public interface IProductService //định nghĩa các phương thức
     {
         Task<int> Create(ProductCreateRequest request);
 
@@ -34,5 +34,7 @@ namespace pShopSolution.Application.Catalog.Products
         Task<List<ProductImageViewModel>> GetListImages(int productId);
 
         Task<ProductImageViewModel> GetProductImageById(int imageId);
+
+        Task<PageResult<ProductViewModel>> GetAllByCategoryID(string languageId, GetPublicProductPagingRequest request);
     }
 }
