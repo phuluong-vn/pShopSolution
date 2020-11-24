@@ -11,29 +11,19 @@ namespace pShopSolution.BackendApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IPublicProductService _publicProductService;
-        private readonly IManageProductService _manageProductService;
+        private readonly IProductService _productService;
 
-        public ProductsController(IPublicProductService publicProductService, IManageProductService manageProductService)
+        public ProductsController(IProductService productService)
         {
-            _publicProductService = publicProductService;
-            _manageProductService = manageProductService;
+            _productService = productService;
         }
-
-        //https:localhost:port/product
-        //[HttpGet("{languageId}")]
-        //public async Task<IActionResult> GetAll(string languageId)
-        //{
-        //    var products = await _publicProductService.GetAll(languageId);
-        //    return Ok(products);
-        //}
 
         //https:localhost:port/product/1
         [HttpGet("{productId}/{languageId}")]
         [Authorize]
         public async Task<IActionResult> GetProductById(int productId, string languageId)
         {
-            var product = await _manageProductService.GetById(productId, languageId);
+            var product = await _productService.GetById(productId, languageId);
             if (product == null)
                 return BadRequest("Cannot find product");
             return Ok(product);
@@ -42,7 +32,7 @@ namespace pShopSolution.BackendApi.Controllers
         [HttpGet("{languageId}")]
         public async Task<IActionResult> GetAllByCategoryId(string languageId, [FromQuery] GetPublicProductPagingRequest request)
         {
-            var products = await _publicProductService.GetAllByCategoryID(languageId, request);
+            var products = await _productService.GetAllByCategoryID(languageId, request);
             return Ok(products);
         }
 
@@ -53,10 +43,10 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var productId = await _manageProductService.Create(request);
+            var productId = await _productService.Create(request);
             if (productId == 0)
                 return BadRequest();
-            var product = await _manageProductService.GetById(productId, request.LanguageId);
+            var product = await _productService.GetById(productId, request.LanguageId);
             return Created(nameof(GetProductById), product);
         }
 
@@ -67,7 +57,7 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var productId = await _manageProductService.Update(request);
+            var productId = await _productService.Update(request);
             if (productId == 0)
                 return BadRequest();
             return Ok();
@@ -76,7 +66,7 @@ namespace pShopSolution.BackendApi.Controllers
         [HttpDelete("productId")]
         public async Task<IActionResult> Delete(int productId)
         {
-            var result = await _manageProductService.Delete(productId);
+            var result = await _productService.Delete(productId);
             if (result == 0)
                 return BadRequest();
             return Ok();
@@ -85,7 +75,7 @@ namespace pShopSolution.BackendApi.Controllers
         [HttpPatch("{productId}/{newPrice}")]
         public async Task<IActionResult> UpdatePrice(int productId, decimal newPrice)
         {
-            var result = await _manageProductService.UpdatePrice(productId, newPrice);
+            var result = await _productService.UpdatePrice(productId, newPrice);
             if (result)
                 return Ok();
             return BadRequest();
@@ -99,10 +89,10 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var productImageId = await _manageProductService.AddImage(productId, request);
+            var productImageId = await _productService.AddImage(productId, request);
             if (productId == 0)
                 return BadRequest();
-            var product = await _manageProductService.GetProductImageById(productImageId);
+            var product = await _productService.GetProductImageById(productImageId);
             return CreatedAtAction(nameof(GetProductById), new { id = productId }, product);
         }
 
@@ -113,10 +103,10 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var image = await _manageProductService.GetProductImageById(imageId);
+            var image = await _productService.GetProductImageById(imageId);
             if (image == null)
                 return BadRequest();
-            var result = await _manageProductService.UpdateImage(imageId, request);
+            var result = await _productService.UpdateImage(imageId, request);
             if (result == 0)
                 return BadRequest();
             return Ok();
@@ -125,7 +115,7 @@ namespace pShopSolution.BackendApi.Controllers
         [HttpPost("{productId}/images/{imageId}")]
         public async Task<IActionResult> GetImageById(int imageId)
         {
-            var image = await _manageProductService.GetProductImageById(imageId);
+            var image = await _productService.GetProductImageById(imageId);
             if (image == null)
                 return BadRequest();
             return Ok(image);
@@ -138,10 +128,10 @@ namespace pShopSolution.BackendApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var image = await _manageProductService.GetProductImageById(imageId);
+            var image = await _productService.GetProductImageById(imageId);
             if (image == null)
                 return BadRequest();
-            var result = await _manageProductService.RemoveImage(imageId);
+            var result = await _productService.RemoveImage(imageId);
             if (result == 0)
                 return BadRequest();
             return Ok();

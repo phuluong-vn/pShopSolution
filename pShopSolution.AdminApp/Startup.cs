@@ -25,6 +25,11 @@ namespace pShopSolution.AdminApp
         {
             services.AddHttpClient();
 
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time
+            });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
                 options.LoginPath = "/User/Login/";
@@ -59,7 +64,11 @@ namespace pShopSolution.AdminApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
