@@ -1,4 +1,4 @@
-﻿using PShopSolution.ViewModels.System;
+﻿using PShopSolution.ViewModels.System.Users;
 using System.Threading.Tasks;
 
 namespace pShopSolution.Application.System

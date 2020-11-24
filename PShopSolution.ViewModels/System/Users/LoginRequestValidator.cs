@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PShopSolution.ViewModels.System
+namespace PShopSolution.ViewModels.System.Users
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {
