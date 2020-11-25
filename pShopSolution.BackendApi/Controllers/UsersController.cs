@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using pShopSolution.Application.System;
 using PShopSolution.ViewModels.System.Users;
+using System;
 using System.Threading.Tasks;
 
 namespace pShopSolution.BackendApi.Controllers
@@ -25,12 +26,12 @@ namespace pShopSolution.BackendApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var resultToken = await _userService.Authencate(request);
-            if (string.IsNullOrEmpty(resultToken))
+            var result = await _userService.Authencate(request);
+            if (string.IsNullOrEmpty(result.ResultObj))
             {
-                return BadRequest("Username or password is incorrect.");
+                return BadRequest(result);
             }
-            return Ok(resultToken);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -41,11 +42,36 @@ namespace pShopSolution.BackendApi.Controllers
                 return BadRequest(ModelState);
 
             var result = await _userService.Register(request);
-            if (!result)
+            if (!result.IsSuccessed)
             {
-                return BadRequest("Register is unsuccessful.");
+                return BadRequest(result);
             }
-            return Ok();
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.Update(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = await _userService.GetById(id);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpGet("paging")]

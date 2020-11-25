@@ -1,15 +1,20 @@
 ﻿using PShopSolution.ViewModels.Common;
 using PShopSolution.ViewModels.System.Users;
+using System;
 using System.Threading.Tasks;
 
 namespace pShopSolution.AdminApp.Services
 {
     public interface IUserApiClient
     {
-        Task<string> Authenticate(LoginRequest request);
+        Task<ApiResult<string>> Authenticate(LoginRequest request);
 
-        Task<PageResult<UserVm>> GetUserPagings(GetUserPagingRequest request);
+        Task<ApiResult<PageResult<UserVm>>> GetUserPagings(GetUserPagingRequest request);
 
-        Task<bool> RegisterUser(RegisterRequest request);
+        Task<ApiResult<bool>> RegisterUser(RegisterRequest request);
+
+        Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
+
+        Task<ApiResult<UserVm>> GetById(Guid id);
     }
 }
