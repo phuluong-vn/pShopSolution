@@ -37,11 +37,21 @@ namespace pShopSolution.AdminApp.Services
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BassAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", request.BearerToken);
-            var response = await client.GetAsync($"/api/users/paging?pageIndex={request.PageIndex}" +
+            var response = await client.GetAsync($"/api/Users/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}&keywork={request.Keywork}");
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<PageResult<UserVm>>(body);
             return users;
+        }
+
+        public async Task<bool> RegisterUser(RegisterRequest request)
+        {
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BassAddress"]);
+            var response = await client.PostAsync($"/api/Users", httpContent);
+            return response.IsSuccessStatusCode;
         }
     }
 }
