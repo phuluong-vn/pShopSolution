@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using pShopSolution.Data.Entities;
@@ -6,11 +7,10 @@ using PShopSolution.ViewModels.Common;
 using PShopSolution.ViewModels.System.Users;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace pShopSolution.Application.System
 {
@@ -18,26 +18,24 @@ namespace pShopSolution.Application.System
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
 
         public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _config = config;
         }
 
-        public async Task<string> Authencate(LoginRequest request)
+        public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.Username);
             if (user == null)
-                return null;
+                return new ApiErrorResult<string>("Không đúng tài khoản!");
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
-                return null;
+                return new ApiErrorResult<string>("Không đúng tài khoản hoặc mật khẩu!");
 
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
@@ -56,10 +54,27 @@ namespace pShopSolution.Application.System
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<PageResult<UserVm>> GetUserPaging(GetUserPagingRequest request)
+        public async Task<ApiResult<UserVm>> GetById(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+                return new ApiErrorResult<UserVm>($"Cannot find user by id: {id}");
+            UserVm uv = new UserVm()
+            {
+                Email = user.Email,
+                Phone = user.PhoneNumber,
+                FirstName = user.FirstName,
+                Id = user.Id,
+                LastName = user.LastName,
+                Dob = user.Dob
+            };
+            return new ApiSuccessResult<UserVm>(uv);
+        }
+
+        public async Task<ApiResult<PageResult<UserVm>>> GetUserPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
             if (!string.IsNullOrEmpty(request.Keywork))
@@ -86,11 +101,21 @@ namespace pShopSolution.Application.System
                 TotalRecord = totalRow,
                 Items = data
             };
-            return pageResult;
+            return new ApiSuccessResult<PageResult<UserVm>>(pageResult);
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
+            var checkUser = await _userManager.FindByNameAsync(request.Username);
+            var checkEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (checkUser != null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản đã tồn tại!");
+            }
+            if (checkEmail != null)
+            {
+                return new ApiErrorResult<bool>("Email đã tồn tại!");
+            }
             var user = new AppUser()
             {
                 Dob = request.Dob,
@@ -103,9 +128,30 @@ namespace pShopSolution.Application.System
             var rs = await _userManager.CreateAsync(user, request.Password);
             if (rs.Succeeded)
             {
-                return true;
+                return new ApiSuccessResult<bool>();
             }
-            return false;
+            return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
+
+        public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
+        {
+            var checkEmail = await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id);
+            if (checkEmail)
+            {
+                return new ApiErrorResult<bool>("Email đã tồn tại!");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            user.Dob = request.Dob;
+            user.Email = request.Email;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.PhoneNumber = request.PhoneNumber;
+            var rs = await _userManager.UpdateAsync(user);
+            if (rs.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Cập nhật người dùng không thành công!");
         }
     }
 }
