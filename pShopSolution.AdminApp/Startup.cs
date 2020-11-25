@@ -27,14 +27,15 @@ namespace pShopSolution.AdminApp
 
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time
+                options.IdleTimeout = TimeSpan.FromMinutes(30);//You can set Time
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
-                options.LoginPath = "/User/Login/";
+                options.LoginPath = "/Login/Index/";
                 options.AccessDeniedPath = "/User/Forbidden";
             });
+
             services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterRequestValidator>());
 
