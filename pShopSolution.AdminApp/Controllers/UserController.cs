@@ -82,5 +82,17 @@ namespace pShopSolution.AdminApp.Controllers
             ModelState.AddModelError("", rs.Message);
             return View(request);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                return View(user);
+            }
+            return RedirectToAction("Error", "Home");
+        }
     }
 }

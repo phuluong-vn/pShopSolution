@@ -154,6 +154,8 @@ namespace pShopSolution.Application.Catalog.Products
             var pageResult = new PageResult<ProductViewModel>()
             {
                 TotalRecord = totalRow,
+                PageSise = request.PageSize,
+                PageIndex = request.PageIndex,
                 Items = data
             };
             return pageResult;

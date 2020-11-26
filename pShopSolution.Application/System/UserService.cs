@@ -69,6 +69,7 @@ namespace pShopSolution.Application.System
                 FirstName = user.FirstName,
                 Id = user.Id,
                 LastName = user.LastName,
+                UserName = user.UserName,
                 Dob = user.Dob
             };
             return new ApiSuccessResult<UserVm>(uv);
@@ -99,6 +100,8 @@ namespace pShopSolution.Application.System
             var pageResult = new PageResult<UserVm>()
             {
                 TotalRecord = totalRow,
+                PageIndex = request.PageIndex,
+                PageSise = request.PageSize,
                 Items = data
             };
             return new ApiSuccessResult<PageResult<UserVm>>(pageResult);

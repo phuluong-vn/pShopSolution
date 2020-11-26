@@ -2,9 +2,8 @@
 
 namespace PShopSolution.ViewModels.Common
 {
-    public class PageResult<T>
+    public class PageResult<T> : PageResultBase
     {
         public List<T> Items { get; set; }
-        public int TotalRecord { get; set; }
     }
 }
