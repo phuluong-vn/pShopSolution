@@ -74,6 +74,17 @@ namespace pShopSolution.BackendApi.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _userService.Delete(id);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllByCategoryId([FromQuery] GetUserPagingRequest request)
         {
