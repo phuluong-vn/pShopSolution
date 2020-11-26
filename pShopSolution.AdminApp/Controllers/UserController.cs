@@ -31,7 +31,11 @@ namespace pShopSolution.AdminApp.Controllers
             var data = await _userApiClient.GetUserPagings(request);
             if (keyword != "")
             {
-                ViewBag.keyword = keyword;
+                ViewBag.Keyword = keyword;
+            }
+            if (TempData["Success"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["Success"];
             }
             return View(data.ResultObj);
         }
@@ -49,7 +53,11 @@ namespace pShopSolution.AdminApp.Controllers
                 return View();
             var rs = await _userApiClient.RegisterUser(request);
             if (rs.IsSuccessed)
+            {
+                TempData["Success"] = "Create User Success";
                 return RedirectToAction("Index", "User");
+            }
+
             ModelState.AddModelError("", rs.Message);
             return View(request);
         }
@@ -82,7 +90,10 @@ namespace pShopSolution.AdminApp.Controllers
                 return View();
             var rs = await _userApiClient.UpdateUser(request.Id, request);
             if (rs.IsSuccessed)
+            {
+                TempData["Success"] = "Update User Success";
                 return RedirectToAction("Index");
+            }
             ModelState.AddModelError("", rs.Message);
             return View(request);
         }
@@ -118,7 +129,10 @@ namespace pShopSolution.AdminApp.Controllers
         {
             var rs = await _userApiClient.DeleteUser(request.Id);
             if (rs.IsSuccessed)
+            {
+                TempData["Success"] = "Update User Success";
                 return RedirectToAction("Index");
+            }
             ModelState.AddModelError("", rs.Message);
             return View(rs.Message);
         }
