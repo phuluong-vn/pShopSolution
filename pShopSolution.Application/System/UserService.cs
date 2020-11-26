@@ -93,7 +93,7 @@ namespace pShopSolution.Application.System
             var query = _userManager.Users;
             if (!string.IsNullOrEmpty(request.Keywork))
             {
-                query = query.Where(x => x.UserName.Contains(request.Keywork) || x.PhoneNumber.Contains(request.Keywork));
+                query = query.Where(x => x.UserName.Contains(request.Keywork) || x.PhoneNumber.Contains(request.Keywork) || x.FirstName.Contains(request.Keywork) || x.LastName.Contains(request.Keywork));
             }
             //3. Paging
             int totalRow = await query.CountAsync();

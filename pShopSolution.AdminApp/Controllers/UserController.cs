@@ -29,6 +29,10 @@ namespace pShopSolution.AdminApp.Controllers
                 PageSize = pageSize
             };
             var data = await _userApiClient.GetUserPagings(request);
+            if (keyword != "")
+            {
+                ViewBag.keyword = keyword;
+            }
             return View(data.ResultObj);
         }
 
