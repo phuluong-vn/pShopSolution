@@ -57,6 +57,19 @@ namespace pShopSolution.Application.System
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
+        public async Task<ApiResult<bool>> Delete(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+                return new ApiErrorResult<bool>($"Cannot find user by id: {id}");
+            var rs = await _userManager.DeleteAsync(user);
+            if (!rs.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Cannot delete this user!");
+            }
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<ApiResult<UserVm>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());

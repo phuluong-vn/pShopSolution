@@ -94,5 +94,29 @@ namespace pShopSolution.AdminApp.Controllers
             }
             return RedirectToAction("Error", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var rs = await _userApiClient.GetById(id);
+            if (!rs.IsSuccessed)
+                return RedirectToAction("Error", "Home");
+            var model = new DeleteUserRequest()
+            {
+                Id = rs.ResultObj.Id,
+                Username = rs.ResultObj.UserName
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteUserRequest request)
+        {
+            var rs = await _userApiClient.DeleteUser(request.Id);
+            if (rs.IsSuccessed)
+                return RedirectToAction("Index");
+            ModelState.AddModelError("", rs.Message);
+            return View(rs.Message);
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace pShopSolution.Application.System
 
         Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
 
+        Task<ApiResult<bool>> Delete(Guid id);
+
         Task<ApiResult<UserVm>> GetById(Guid id);
 
         Task<ApiResult<PageResult<UserVm>>> GetUserPaging(GetUserPagingRequest request);
