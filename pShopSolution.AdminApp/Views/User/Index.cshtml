@@ -6,7 +6,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     // ViewBag["keyword"] = @K
 }
-
+@section Scripts{ 
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
 <div class="container-fluid">
     <h1 class="mt-4">Danh sách người dùng</h1>
     <ol class="breadcrumb mb-4">
@@ -19,7 +25,7 @@
         </div>
         <div class="col-md-5" style=" float:right">
             <form asp-action="Index" method="get" style="display:flex">
-                <input type="text" class="form-control" name="keyword" value="@ViewBag.keyword"/>
+                <input type="text" class="form-control" name="keyword" value="@ViewBag.Keyword" />
                 <button type="submit" class="btn btn-primary" style="width:200px"> <i class="fa fa-search"></i>      Tìm kiếm</button>
                 <button type="button" class="btn btn-warning" onclick="window.location.href='/User/Index'" style="width:200px">Reset</button>
             </form>
@@ -31,6 +37,12 @@
             danh sách người dùng
         </div>
         <div class="card-body">
+            @if (@ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAlert" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
+            }
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" width="100%" cellspacing="0">
                     <thead>
