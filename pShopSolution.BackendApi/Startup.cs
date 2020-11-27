@@ -12,7 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Application.Common;
-using pShopSolution.Application.System;
+using pShopSolution.Application.System.Roles;
+using pShopSolution.Application.System.Users;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Constants;
@@ -47,6 +48,7 @@ namespace pShopSolution.BackendApi
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

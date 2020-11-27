@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     // ViewBag["keyword"] = @K
 }
-@section Scripts{ 
+@section Scripts{
     <script>
         setTimeout(function () {
             $('#msgAlert').fadeOut('slow');
@@ -79,7 +79,8 @@
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                                    @Html.ActionLink("Authorized", "RoleAssign", new { id = item.Id })
                                 </td>
                             </tr>
                         }
