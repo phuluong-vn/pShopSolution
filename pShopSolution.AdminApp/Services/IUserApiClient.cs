@@ -18,5 +18,7 @@ namespace pShopSolution.AdminApp.Services
         Task<ApiResult<bool>> DeleteUser(Guid id);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
+
+        Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
     }
 }

@@ -3,7 +3,7 @@ using PShopSolution.ViewModels.System.Users;
 using System;
 using System.Threading.Tasks;
 
-namespace pShopSolution.Application.System
+namespace pShopSolution.Application.System.Users
 {
     public interface IUserService
     {
@@ -12,6 +12,8 @@ namespace pShopSolution.Application.System
         Task<ApiResult<bool>> Register(RegisterRequest request);
 
         Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
+
+        Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
 
         Task<ApiResult<bool>> Delete(Guid id);
 

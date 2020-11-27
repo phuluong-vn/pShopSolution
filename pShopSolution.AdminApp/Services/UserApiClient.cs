@@ -45,10 +45,10 @@ namespace pShopSolution.AdminApp.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
             var response = await client.GetAsync($"/api/Users/{id}");
-            var body = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<UserVm>>(body);
-            return JsonConvert.DeserializeObject<ApiErrorResult<UserVm>>(body);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<UserVm>>(content);
+            return JsonConvert.DeserializeObject<ApiErrorResult<UserVm>>(content);
         }
 
         public async Task<ApiResult<PageResult<UserVm>>> GetUserPagings(GetUserPagingRequest request)
@@ -71,28 +71,28 @@ namespace pShopSolution.AdminApp.Services
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BassAddress"]);
             var response = await client.PostAsync($"/api/Users", httpContent);
-            var result = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(content);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(content);
         }
 
         public async Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request)
         {
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BassAddress"]);
 
             var bearerToken = _httpContextAccessor.HttpContext.Session.GetString("Token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await client.PutAsync($"/api/Users/{id}", httpContent);
-            var result = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(content);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(content);
         }
 
         public async Task<ApiResult<bool>> DeleteUser(Guid id)
@@ -104,10 +104,28 @@ namespace pShopSolution.AdminApp.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
             var response = await client.DeleteAsync($"/api/Users/{id}");
-            var result = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(content);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(content);
+        }
+
+        public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BassAddress"]);
+
+            var bearerToken = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync($"/api/Users/{id}/roles", httpContent);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(content);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(content);
         }
     }
 }
