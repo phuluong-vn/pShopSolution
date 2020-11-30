@@ -1,5 +1,5 @@
 ﻿using PShopSolution.ViewModels.Common;
-using PShopSolution.ViewModels.System.Users;
+using PShopSolution.ViewModels.System.Roles;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

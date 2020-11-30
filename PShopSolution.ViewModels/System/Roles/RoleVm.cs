@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PShopSolution.ViewModels.System.Users
+namespace PShopSolution.ViewModels.System.Roles
 {
     public class RoleVm
     {

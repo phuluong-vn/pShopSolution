@@ -55,7 +55,7 @@ namespace pShopSolution.AdminApp.Controllers
             var rs = await _userApiClient.RegisterUser(request);
             if (rs.IsSuccessed)
             {
-                TempData["Success"] = "Create User Success";
+                TempData["Success"] = "Tạo người dùng thành công";
                 return RedirectToAction("Index", "User");
             }
 
@@ -92,7 +92,7 @@ namespace pShopSolution.AdminApp.Controllers
             var rs = await _userApiClient.UpdateUser(request.Id, request);
             if (rs.IsSuccessed)
             {
-                TempData["Success"] = "Update User Success";
+                TempData["Success"] = "Cập nhật người dùng thành công";
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("", rs.Message);
@@ -131,7 +131,7 @@ namespace pShopSolution.AdminApp.Controllers
             var rs = await _userApiClient.DeleteUser(request.Id);
             if (rs.IsSuccessed)
             {
-                TempData["Success"] = "Update User Success";
+                TempData["Success"] = "Xóa người dùng thành công";
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError("", rs.Message);

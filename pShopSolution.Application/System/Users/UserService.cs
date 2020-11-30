@@ -20,7 +20,7 @@ namespace pShopSolution.Application.System.Users
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _config;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IConfiguration config)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -61,11 +61,11 @@ namespace pShopSolution.Application.System.Users
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
-                return new ApiErrorResult<bool>($"Cannot find user by id: {id}");
+                return new ApiErrorResult<bool>($"Không tìm thấy người dùng bạn cần xóa");
             var rs = await _userManager.DeleteAsync(user);
             if (!rs.Succeeded)
             {
-                return new ApiErrorResult<bool>("Cannot delete this user!");
+                return new ApiErrorResult<bool>("Xóa người dùng không thành công");
             }
             return new ApiSuccessResult<bool>();
         }
@@ -74,7 +74,7 @@ namespace pShopSolution.Application.System.Users
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
-                return new ApiErrorResult<UserVm>($"Cannot find user by id: {id}");
+                return new ApiErrorResult<UserVm>("Không tìm thấy người dùng này");
 
             var roles = await _userManager.GetRolesAsync(user);
             UserVm uv = new UserVm()
