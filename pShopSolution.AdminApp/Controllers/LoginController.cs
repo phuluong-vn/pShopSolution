@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using pShopSolution.AdminApp.Services;
+using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.System.Users;
 
 namespace pShopSolution.AdminApp.Controllers
@@ -43,8 +44,8 @@ namespace pShopSolution.AdminApp.Controllers
             {
                 ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác!");
                 return View();
-            }    
-                
+            }
+
             var result = await _userApiClient.Authenticate(request);
             if (result.ResultObj == null)
             {
@@ -57,7 +58,8 @@ namespace pShopSolution.AdminApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
                 IsPersistent = true,
             };
-            HttpContext.Session.SetString("Token", result.ResultObj);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration["DefaultLanguageId"]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 userPrincipal,

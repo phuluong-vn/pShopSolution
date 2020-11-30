@@ -1,12 +1,12 @@
 ﻿using PShopSolution.ViewModels.Common;
-using PShopSolution.ViewModels.System.Roles;
+using PShopSolution.ViewModels.System.Languages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace pShopSolution.AdminApp.Services
 {
-    public interface IRoleApiClient
+    public interface ILanguageApiClient
     {
-        Task<ApiResult<List<RoleVm>>> GetAll();
+        Task<ApiResult<List<LanguageVm>>> GetAll();
     }
 }

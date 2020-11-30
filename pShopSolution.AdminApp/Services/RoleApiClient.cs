@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PShopSolution.ViewModels.Common;
-using PShopSolution.ViewModels.System.Users;
+using PShopSolution.ViewModels.System.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,8 @@ namespace pShopSolution.AdminApp.Services
 
         public async Task<ApiResult<List<RoleVm>>> GetAll()
         {
+            //return await GetAsync<ApiResult<List<RoleVm>>>("/api/roles");
+
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BassAddress"]);
 
