@@ -9,5 +9,6 @@ namespace PShopSolution.ViewModels.Catalog.Products
     {
         public string Keywork { get; set; }
         public List<int> CategoryIds { get; set; }
+        public string LanguageId { get; set; }
     }
 }

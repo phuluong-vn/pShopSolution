@@ -21,9 +21,9 @@ namespace pShopSolution.Application.Catalog.Products
 
         Task<int> AddViewCount(int productId);
 
-        Task<PageResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+        Task<PageResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
 
-        Task<ProductViewModel> GetById(int productId, string languageId);
+        Task<ProductVm> GetById(int productId, string languageId);
 
         Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
@@ -35,6 +35,6 @@ namespace pShopSolution.Application.Catalog.Products
 
         Task<ProductImageViewModel> GetProductImageById(int imageId);
 
-        Task<PageResult<ProductViewModel>> GetAllByCategoryID(string languageId, GetPublicProductPagingRequest request);
+        Task<PageResult<ProductVm>> GetAllByCategoryID(string languageId, GetPublicProductPagingRequest request);
     }
 }
