@@ -27,10 +27,12 @@ namespace pShopSolution.AdminApp.Services
 
         protected async Task<TResponse> GetAsync<TResponse>(string url)
         {
+            var bearerToken = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BassAddress]);
-
-            var bearerToken = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.Token);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
             var response = await client.GetAsync(url);

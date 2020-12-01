@@ -47,6 +47,11 @@ namespace pShopSolution.AdminApp.Controllers
             }
 
             var result = await _userApiClient.Authenticate(request);
+            if(result== null)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View();
+            }
             if (result.ResultObj == null)
             {
                 ModelState.AddModelError("", result.Message);

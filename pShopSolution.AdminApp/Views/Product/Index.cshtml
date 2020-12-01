@@ -1,0 +1,95 @@
+﻿@using PShopSolution.ViewModels.Common
+@model PageResult<PShopSolution.ViewModels.Catalog.Products.ProductVm>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Danh sách người dùng</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách sản phẩm</li>
+    </ol>
+    <div class="col-md-12" style="display:flex">
+        <div class="col-md-1" style="padding:0; margin-bottom:10px;">
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Product"><i class="fa fa-plus"></i> Thêm mới </a>
+        </div>
+        <div class="col-md-5" style=" float:right">
+            <form asp-action="Index" method="get" style="display:flex">
+                <input type="text" class="form-control" name="keyword" value="@ViewBag.Keyword" />
+                <button type="submit" class="btn btn-primary" style="width:200px"> <i class="fa fa-search"></i>      Tìm kiếm</button>
+                <button type="button" class="btn btn-warning" onclick="window.location.href='/Product/Index'" style="width:200px">Reset</button>
+            </form>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            danh sách sản phẩm
+        </div>
+        <div class="card-body">
+            @if (@ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAlert" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
+            }
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã sản phẩm
+                            </th>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Giá nhập sản phẩm
+                            </th>
+                            <th>
+                                Giá bán
+                            </th>
+                            <th>
+                                Tình trạng
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OriginalPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stock)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>
+</div>
