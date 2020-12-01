@@ -46,6 +46,7 @@ namespace pShopSolution.AdminApp
             services.AddTransient<IRoleApiClient, RoleApiClient>();
             services.AddTransient<ILanguageApiClient, LanguageApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

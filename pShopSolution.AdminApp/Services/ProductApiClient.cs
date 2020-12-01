@@ -29,6 +29,13 @@ namespace pShopSolution.AdminApp.Services
             _configuration = configuration;
         }
 
+        public async Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request)
+        {
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            return await AssignCategoryPutAsync<ApiResult<bool>>($"/api/products/{id}/categories", httpContent);
+        }
+
         public async Task<bool> CreateProduct(ProductCreateRequest request)
         {
             var bearerToken = _httpContextAccessor
@@ -72,12 +79,19 @@ namespace pShopSolution.AdminApp.Services
             return result.IsSuccessStatusCode;
         }
 
+        public async Task<ProductVm> GetById(int productId, string languageId)
+        {
+            var data = await GetAsync<ProductVm>($"/api/products?productId={productId}&languageId={languageId}");
+            return data;
+        }
+
         public async Task<PageResult<ProductVm>> GetProductPagings(GetManageProductPagingRequest request)
         {
             return await GetAsync<PageResult<ProductVm>>($"/api/products/paging?pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
                 $"&keywork={request.Keywork}" +
-                $"&languageId={request.LanguageId}");
+                $"&languageId={request.LanguageId}" +
+                $"&categoryId={request.CategoryId}");
         }
     }
 }

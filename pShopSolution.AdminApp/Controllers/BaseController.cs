@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using pShopSolution.Utilities.Constants;
 
 namespace pShopSolution.AdminApp.Controllers
 {
@@ -12,7 +13,7 @@ namespace pShopSolution.AdminApp.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var sessions = context.HttpContext.Session.GetString("Token");
+            var sessions = context.HttpContext.Session.GetString(SystemConstants.AppSettings.Token);
             if (sessions == null)
             {
                 context.Result = new RedirectToActionResult("Index", "Login", null);

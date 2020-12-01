@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using pShopSolution.AdminApp.Services;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.Catalog.Products;
+using PShopSolution.ViewModels.Common;
 
 namespace pShopSolution.AdminApp.Controllers
 {
@@ -16,14 +18,16 @@ namespace pShopSolution.AdminApp.Controllers
     {
         private readonly IProductApiClient _productApiClient;
         private readonly IConfiguration _configuration;
+        private readonly ICategoryApiClient _categoryApiClient;
 
-        public ProductController(IProductApiClient productApiClient, IConfiguration configuration)
+        public ProductController(IProductApiClient productApiClient, IConfiguration configuration, ICategoryApiClient categoryApiClient)
         {
             _productApiClient = productApiClient;
             _configuration = configuration;
+            _categoryApiClient = categoryApiClient;
         }
 
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 2)
+        public async Task<IActionResult> Index(string keyword, int? categoryId, int pageIndex = 1, int pageSize = 2)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
             var request = new GetManageProductPagingRequest()
@@ -31,13 +35,20 @@ namespace pShopSolution.AdminApp.Controllers
                 Keywork = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = languageId
+                LanguageId = languageId,
+                CategoryId = categoryId
             };
             var data = await _productApiClient.GetProductPagings(request);
-            if (keyword != "")
+            ViewBag.Keyword = keyword;
+
+            var category = await _categoryApiClient.GetAll(languageId);
+            ViewBag.Categories = category.Select(x => new SelectListItem()
             {
-                ViewBag.Keyword = keyword;
-            }
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = categoryId.HasValue && categoryId.Value == x.Id
+            });
+
             if (TempData["Success"] != null)
             {
                 ViewBag.SuccessMsg = TempData["Success"];
@@ -67,120 +78,46 @@ namespace pShopSolution.AdminApp.Controllers
             return View(request);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(Guid id)
-        //{
-        //    var result = await _productApiClient.GetById(id);
-        //    if (result.IsSuccessed)
-        //    {
-        //        var product = result.ResultObj;
-        //        var updateRequest = new productUpdateRequest()
-        //        {
-        //            Dob = product.Dob,
-        //            Email = product.Email,
-        //            FirstName = product.FirstName,
-        //            LastName = product.LastName,
-        //            PhoneNumber = product.Phone,
-        //            Id = id
-        //        };
-        //        return View(updateRequest);
-        //    }
-        //    return RedirectToAction("Error", "Home");
-        //}
+        [HttpGet]
+        public async Task<IActionResult> CategoryAssign(int id)
+        {
+            var categoryAssignRequest = await GetCategoryAssignRequest(id);
+            return View(categoryAssignRequest);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(productUpdateRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View();
-        //    var rs = await _productApiClient.Updateproduct(request.Id, request);
-        //    if (rs.IsSuccessed)
-        //    {
-        //        TempData["Success"] = "Cập nhật người dùng thành công";
-        //        return RedirectToAction("Index");
-        //    }
-        //    ModelState.AddModelError("", rs.Message);
-        //    return View(request);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
+        {
+            var rs = await _productApiClient.CategoryAssign(request.Id, request);
 
-        //[HttpGet]
-        //public async Task<IActionResult> Details(Guid id)
-        //{
-        //    var result = await _productApiClient.GetById(id);
-        //    if (result.IsSuccessed)
-        //    {
-        //        var product = result.ResultObj;
-        //        return View(product);
-        //    }
-        //    return RedirectToAction("Error", "Home");
-        //}
+            if (rs.IsSuccessed)
+            {
+                TempData["Success"] = "Cập nhật quyền danh mục cho sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-        //    var rs = await _productApiClient.GetById(id);
-        //    if (!rs.IsSuccessed)
-        //        return RedirectToAction("Error", "Home");
-        //    var model = new DeleteproductRequest()
-        //    {
-        //        Id = rs.ResultObj.Id,
-        //        productname = rs.ResultObj.productName
-        //    };
-        //    return View(model);
-        //}
+            ModelState.AddModelError("", rs.Message);
+            var roleAssignRequest = await GetCategoryAssignRequest(request.Id);
+            return View(roleAssignRequest);
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(DeleteproductRequest request)
-        //{
-        //    var rs = await _productApiClient.Deleteproduct(request.Id);
-        //    if (rs.IsSuccessed)
-        //    {
-        //        TempData["Success"] = "Xóa người dùng thành công";
-        //        return RedirectToAction("Index");
-        //    }
-        //    ModelState.AddModelError("", rs.Message);
-        //    return View(rs.Message);
-        //}
+        private async Task<CategoryAssignRequest> GetCategoryAssignRequest(int pId)
+        {
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            var rsProduct = await _productApiClient.GetById(pId, languageId);
+            var rsCategories = await _categoryApiClient.GetAll(languageId);
+            var categoryAssignRequest = new CategoryAssignRequest();
+            foreach (var category in rsCategories)
+            {
+                categoryAssignRequest.Categories.Add(new SelectedItem()
+                {
+                    Id = category.Id.ToString(),
+                    Name = category.Name,
+                    Selected = rsProduct.Categories.Contains(category.Name)
+                });
+            }
 
-        //[HttpGet]
-        //public async Task<IActionResult> RoleAssign(Guid Id)
-        //{
-        //    var roleAssignRequest = await GetRoleAssignRequest(Id);
-        //    return View(roleAssignRequest);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> RoleAssign(RoleAssignRequest request)
-        //{
-        //    var rs = await _productApiClient.RoleAssign(request.Id, request);
-
-        //    if (rs.IsSuccessed)
-        //    {
-        //        TempData["Success"] = "Cập nhật quyền thành công";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ModelState.AddModelError("", rs.Message);
-        //    var roleAssignRequest = await GetRoleAssignRequest(request.Id);
-        //    return View(roleAssignRequest);
-        //}
-
-        //private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid uId)
-        //{
-        //    var rsproduct = await _productApiClient.GetById(uId);
-        //    var rsRole = await _roleApiClient.GetAll();
-        //    var roleAssignRequest = new RoleAssignRequest();
-        //    foreach (var role in rsRole.ResultObj)
-        //    {
-        //        roleAssignRequest.Roles.Add(new SelectedItem()
-        //        {
-        //            Id = role.Id.ToString(),
-        //            Name = role.Name,
-        //            Selected = rsproduct.ResultObj.Roles.Contains(role.Name)
-        //        });
-        //    }
-
-        //    return roleAssignRequest;
-        //}
+            return categoryAssignRequest;
+        }
     }
 }

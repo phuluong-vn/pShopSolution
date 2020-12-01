@@ -16,11 +16,22 @@
         <div class="col-md-1" style="padding:0; margin-bottom:10px;">
             <a class="btn btn-primary" asp-action="Create" asp-controller="Product"><i class="fa fa-plus"></i> Thêm mới </a>
         </div>
-        <div class="col-md-5" style=" float:right">
+        <div class="col-md-8" style=" float:right">
             <form asp-action="Index" method="get" style="display:flex">
-                <input type="text" class="form-control" name="keyword" value="@ViewBag.Keyword" />
-                <button type="submit" class="btn btn-primary" style="width:200px"> <i class="fa fa-search"></i>      Tìm kiếm</button>
-                <button type="button" class="btn btn-warning" onclick="window.location.href='/Product/Index'" style="width:200px">Reset</button>
+                <div class="col-md-4">
+                    <select name="categoryId" asp-items="@ViewBag.Categories" onchange="this.form.submit()" class="form-control">
+                        <option>--Chọn danh mục--</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="keyword" value="@ViewBag.Keyword" placeholder="Tìm kiếm sản phẩm..." />
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary" style="width:100%"> <i class="fa fa-search"></i>      Tìm kiếm</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-dark" onclick="window.location.href='/Product/Index'" style="width:100%"><i class="fa fa-times"></i>  Reset</button>
+                </div>
             </form>
         </div>
     </div>
@@ -78,11 +89,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Stock)
                                 </td>
-
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("Gán danh mục", "AssignCategory", new { id = item.Id })
                                 </td>
                             </tr>
                         }

@@ -1,0 +1,46 @@
+﻿@model PShopSolution.ViewModels.Catalog.Products.CategoryAssignRequest
+
+@{
+    ViewData["Title"] = "Gán danh mục sảm phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Gán danh mục sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Product">Danh sách sản phẩm</a></li>
+        <li class="breadcrumb-item active">Gán danh mục sản phẩm</li>
+    </ol>
+    <div class="card col-md-1" style="padding:0; margin-bottom:10px">
+        <a class="btn btn-success" asp-action="Index" asp-controller="Product"><i class="fa fa-arrow-left"></i> Trở lại </a>
+    </div>
+    <div class="row" style="padding-left:50px">
+        <div class="col-md-4">
+            <form asp-action="CategoryAssign">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Id" />
+                @for (int i = 0; i < Model.Categories.Count; i++)
+                {
+                    <div class="form-group">
+                        <label>
+                            @Model.Categories[i].Name
+                            <input asp-for="Categories[i].Selected" />
+                            <input hidden asp-for="Categories[i].Name" />
+                            <input hidden asp-for="Categories[i].Id" />
+                        </label>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
