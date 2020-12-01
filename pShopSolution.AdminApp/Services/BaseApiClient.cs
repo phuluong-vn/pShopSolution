@@ -45,6 +45,26 @@ namespace pShopSolution.AdminApp.Services
             return JsonConvert.DeserializeObject<TResponse>(content);
         }
 
+        protected async Task<List<T>> GetListAsync<T>(string url, bool requiredLogin = false)
+        {
+            var bearerToken = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BassAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+
+            var response = await client.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var data = (List<T>)JsonConvert.DeserializeObject(content, typeof(List<T>));
+                return data;
+            }
+            throw new Exception(content);
+        }
+
         protected async Task<TResponse> PostAsync<TResponse>(string url, StringContent httpContent)
         {
             var client = _httpClientFactory.CreateClient();
@@ -91,6 +111,24 @@ namespace pShopSolution.AdminApp.Services
         }
 
         protected async Task<TResponse> AssignRolePutAsync<TResponse>(string url, StringContent httpContent)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BassAddress"]);
+
+            var bearerToken = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+
+            var response = await client.PutAsync(url, httpContent);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                TResponse myDeserializedObjList = (TResponse)JsonConvert.DeserializeObject(content, typeof(TResponse));
+                return myDeserializedObjList;
+            }
+            return JsonConvert.DeserializeObject<TResponse>(content);
+        }
+
+        protected async Task<TResponse> AssignCategoryPutAsync<TResponse>(string url, StringContent httpContent)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BassAddress"]);

@@ -144,5 +144,19 @@ namespace pShopSolution.BackendApi.Controllers
                 return BadRequest();
             return Ok();
         }
+
+        [HttpPut("{productId}/categories")]
+        public async Task<IActionResult> CategoryAssign(int id, [FromForm] CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _productService.CategoryAssign(id, request);
+            if (!result.IsSuccessed)
+                return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

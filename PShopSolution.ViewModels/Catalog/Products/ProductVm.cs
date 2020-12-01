@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PShopSolution.ViewModels.Catalog.Products
 {
@@ -17,5 +18,6 @@ namespace PShopSolution.ViewModels.Catalog.Products
         public int ViewCount { get; set; }
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
+        public IList<string> Categories { get; set; }
     }
 }
