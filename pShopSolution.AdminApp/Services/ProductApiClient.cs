@@ -81,7 +81,7 @@ namespace pShopSolution.AdminApp.Services
 
         public async Task<ProductVm> GetById(int productId, string languageId)
         {
-            var data = await GetAsync<ProductVm>($"/api/products?productId={productId}&languageId={languageId}");
+            var data = await GetAsync<ProductVm>($"/api/products/{productId}/{languageId}");
             return data;
         }
 

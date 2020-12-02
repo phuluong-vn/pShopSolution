@@ -123,7 +123,7 @@ namespace pShopSolution.Application.Catalog.Products
                         join c in _context.Categories on pic.CategoryId equals c.Id into picc
                         from c in picc.DefaultIfEmpty()
                         where pt.LanguageId == request.LanguageId
-                        select new { p, pt, pic, ct };
+                        select new { p, pt, pic };
 
             //2. Filter
             if (!string.IsNullOrEmpty(request.Keywork))
@@ -152,7 +152,7 @@ namespace pShopSolution.Application.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount
-                }).ToListAsync();
+                }).Distinct().ToListAsync();
 
             //4. Select and projection
             var pageResult = new PageResult<ProductVm>()
@@ -372,16 +372,6 @@ namespace pShopSolution.Application.Catalog.Products
                         CategoryId = int.Parse(category.Id),
                         ProductId = id
                     });
-                }
-            }
-
-            var addedCategory = request.Categories.Where(x => x.Selected == true).ToList();
-            foreach (var category in addedCategory)
-            {
-                var productInCategory = await _context.ProductInCategories.FirstOrDefaultAsync(x => x.CategoryId == int.Parse(category.Id) && x.ProductId == id);
-                if (productInCategory != null)
-                {
-                    await _context.ProductInCategories.AddAsync(productInCategory);
                 }
             }
             await _context.SaveChangesAsync();
