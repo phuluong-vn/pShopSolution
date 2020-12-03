@@ -26,6 +26,8 @@ namespace pShopSolution.Application.Catalog.Products
         [Display(Name = "Chi tiết")]
         public string Details { set; get; }
 
+        public bool? IsFeature { get; set; }
+
         public string SeoDescription { set; get; }
         public string SeoTitle { set; get; }
 

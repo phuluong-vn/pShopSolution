@@ -2,15 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using pShopSolution.Utilities.Constants;
-using PShopSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public class BaseApiClient
     {

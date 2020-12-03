@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public class CategoryApiClient : BaseApiClient, ICategoryApiClient
     {

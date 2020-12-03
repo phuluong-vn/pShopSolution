@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using pShopSolution.AdminApp.Models;
-using pShopSolution.AdminApp.Services;
+using pShopSolution.ApiIntergration;
 using pShopSolution.Utilities.Constants;
 using System.Threading.Tasks;
 

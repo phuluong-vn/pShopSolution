@@ -3,7 +3,7 @@ using PShopSolution.ViewModels.Catalog.Products;
 using PShopSolution.ViewModels.Common;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public interface IProductApiClient
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using pShopSolution.AdminApp.Services;
+using pShopSolution.ApiIntergration;
 using PShopSolution.ViewModels.Common;
 using PShopSolution.ViewModels.System.Users;
 using System;

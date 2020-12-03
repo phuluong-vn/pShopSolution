@@ -11,6 +11,7 @@ namespace pShopSolution.Data.Entities
         public int Stock { get; set; }
         public int ViewCount { get; set; }
         public DateTime DateCreate { get; set; }
+        public bool? IsFeature { get; set; }
 
         public List<ProductInCategory> ProductInCategories { get; set; }
 
