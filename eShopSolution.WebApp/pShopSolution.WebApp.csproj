@@ -13,4 +13,9 @@
     <PackageReference Include="LazZiya.TagHelpers" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\pShopSolution.ApiIntergration\pShopSolution.ApiIntergration.csproj" />
+    <ProjectReference Include="..\pShopSolution.Application\pShopSolution.Application.csproj" />
+  </ItemGroup>
+
 </Project>

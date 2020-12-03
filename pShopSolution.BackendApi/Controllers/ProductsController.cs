@@ -43,6 +43,13 @@ namespace pShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
+        [HttpGet("{feature}/{languageId}/{take}")]
+        public async Task<IActionResult> GetAllPaging(string languageId, int take)
+        {
+            var products = await _productService.GetFeatureProduct(languageId, take);
+            return Ok(products);
+        }
+
         [HttpPost]
         [Consumes("multipart/Form-data")]
         public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)

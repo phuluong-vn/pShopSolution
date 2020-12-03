@@ -16,6 +16,7 @@ using pShopSolution.Application.Common;
 using pShopSolution.Application.System.Languages;
 using pShopSolution.Application.System.Roles;
 using pShopSolution.Application.System.Users;
+using pShopSolution.Application.Utililties.Slides;
 using pShopSolution.Data.EF;
 using pShopSolution.Data.Entities;
 using pShopSolution.Utilities.Constants;
@@ -53,6 +54,7 @@ namespace pShopSolution.BackendApi
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
+            services.AddTransient<ISlideService, SlideService>();
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

@@ -6,6 +6,7 @@ using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.Catalog.Products;
 using PShopSolution.ViewModels.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -83,6 +84,11 @@ namespace pShopSolution.ApiIntergration
         {
             var data = await GetAsync<ProductVm>($"/api/products/{productId}/{languageId}");
             return data;
+        }
+
+        public async Task<List<ProductVm>> GetFeatureProduct(string languageId, int take)
+        {
+            return await GetListAsync<ProductVm>($"/api/products/feature/{languageId}/{take}");
         }
 
         public async Task<PageResult<ProductVm>> GetProductPagings(GetManageProductPagingRequest request)

@@ -10,5 +10,10 @@
             public const string Token = "Token";
             public const string BassAddress = "BassAddress";
         }
+
+        public class ProductSettings
+        {
+            public const int NumberOffFeatureProducts = 10;
+        }
     }
 }

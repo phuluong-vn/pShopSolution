@@ -1,6 +1,7 @@
 ﻿using pShopSolution.Application.Catalog.Products;
 using PShopSolution.ViewModels.Catalog.Products;
 using PShopSolution.ViewModels.Common;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace pShopSolution.ApiIntergration
@@ -14,5 +15,7 @@ namespace pShopSolution.ApiIntergration
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
 
         Task<ProductVm> GetById(int productId, string languageId);
+
+        Task<List<ProductVm>> GetFeatureProduct(string languageId, int take);
     }
 }
