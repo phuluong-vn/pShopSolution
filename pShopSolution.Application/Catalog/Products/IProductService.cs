@@ -38,5 +38,9 @@ namespace pShopSolution.Application.Catalog.Products
         Task<PageResult<ProductVm>> GetAllByCategoryID(string languageId, GetPublicProductPagingRequest request);
 
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
+
+        Task<List<ProductVm>> GetFeatureProducts(string languageId, int take);
+
+        Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
     }
 }

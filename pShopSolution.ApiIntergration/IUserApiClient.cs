@@ -3,7 +3,7 @@ using PShopSolution.ViewModels.System.Users;
 using System;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public interface IUserApiClient
     {

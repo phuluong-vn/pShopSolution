@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using pShopSolution.AdminApp.Services;
+using pShopSolution.ApiIntergration;
 using PShopSolution.ViewModels.System.Users;
 using System;
 

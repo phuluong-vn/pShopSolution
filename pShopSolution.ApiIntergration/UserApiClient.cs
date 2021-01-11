@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using pShopSolution.ApiIntergration;
 using PShopSolution.ViewModels.Common;
 using PShopSolution.ViewModels.System.Users;
 using System;

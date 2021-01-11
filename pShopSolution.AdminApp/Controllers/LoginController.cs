@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using pShopSolution.AdminApp.Services;
+using pShopSolution.ApiIntergration;
 using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.System.Users;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace pShopSolution.AdminApp.Controllers
 {
@@ -47,7 +45,7 @@ namespace pShopSolution.AdminApp.Controllers
             }
 
             var result = await _userApiClient.Authenticate(request);
-            if(result== null)
+            if (result == null)
             {
                 ModelState.AddModelError("", result.Message);
                 return View();
@@ -74,7 +72,7 @@ namespace pShopSolution.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout(LoginRequest request)
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 

@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
 using LazZiya.ExpressLocalization;
 using LazZiya.TagHelpers.Alerts;
+using pShopSolution.ApiIntergration;
+using pShopSolution.WebApp.Models;
+using pShopSolution.Utilities.Constants;
+using System.Globalization;
 
 namespace eShopSolution.WebApp.Controllers
 {
@@ -18,16 +22,32 @@ namespace eShopSolution.WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly ISharedCultureLocalizer _loc;
+        private readonly ISlideApiClient _slideApiClient;
+        private readonly IProductApiClient _productApiClient;
 
-        public HomeController(ILogger<HomeController> logger, ISharedCultureLocalizer loc)
+        public HomeController(ILogger<HomeController> logger,
+            ISharedCultureLocalizer loc,
+            ISlideApiClient slideApiClient,
+            IProductApiClient productApiClient)
         {
             _logger = logger;
             _loc = loc;
+            _slideApiClient = slideApiClient;
+            _productApiClient = productApiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var culture = CultureInfo.CurrentCulture.Name;
+            //var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            var viewModel = new HomeViewModel
+            {
+                Slides = await _slideApiClient.GetAll(),
+                FeaturedProducts = await _productApiClient.GetFeatureProducts(culture, SystemConstants.ProductSettings.NumberOffFeatureProducts),
+                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOffFeatureProducts),
+            };
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

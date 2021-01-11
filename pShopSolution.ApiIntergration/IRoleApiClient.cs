@@ -3,7 +3,7 @@ using PShopSolution.ViewModels.System.Roles;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public interface IRoleApiClient
     {

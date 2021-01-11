@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using pShopSolution.AdminApp.Services;
+using pShopSolution.ApiIntergration;
 using pShopSolution.Application.Catalog.Products;
 using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.Catalog.Products;

@@ -1,9 +1,10 @@
 ﻿using pShopSolution.Application.Catalog.Products;
 using PShopSolution.ViewModels.Catalog.Products;
 using PShopSolution.ViewModels.Common;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public interface IProductApiClient
     {
@@ -14,5 +15,9 @@ namespace pShopSolution.AdminApp.Services
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
 
         Task<ProductVm> GetById(int productId, string languageId);
+
+        Task<List<ProductVm>> GetFeatureProducts(string languageId, int take);
+
+        Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
     }
 }

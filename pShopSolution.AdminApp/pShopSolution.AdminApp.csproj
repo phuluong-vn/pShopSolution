@@ -14,6 +14,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\pShopSolution.ApiIntergration\pShopSolution.ApiIntergration.csproj" />
 		<ProjectReference Include="..\pShopSolution.Uliti\pShopSolution.Utilities.csproj" />
 		<ProjectReference Include="..\PShopSolution.ViewModels\PShopSolution.ViewModels.csproj" />
 	</ItemGroup>

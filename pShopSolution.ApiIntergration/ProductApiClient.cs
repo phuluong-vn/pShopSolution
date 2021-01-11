@@ -6,13 +6,14 @@ using pShopSolution.Utilities.Constants;
 using PShopSolution.ViewModels.Catalog.Products;
 using PShopSolution.ViewModels.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pShopSolution.AdminApp.Services
+namespace pShopSolution.ApiIntergration
 {
     public class ProductApiClient : BaseApiClient, IProductApiClient
     {
@@ -83,6 +84,16 @@ namespace pShopSolution.AdminApp.Services
         {
             var data = await GetAsync<ProductVm>($"/api/products/{productId}/{languageId}");
             return data;
+        }
+
+        public async Task<List<ProductVm>> GetFeatureProducts(string languageId, int take)
+        {
+            return await GetListAsync<ProductVm>($"/api/products/feature/{languageId}/{take}");
+        }
+
+        public async Task<List<ProductVm>> GetLatestProducts(string languageId, int take)
+        {
+            return await GetListAsync<ProductVm>($"/api/products/latest/{languageId}/{take}");
         }
 
         public async Task<PageResult<ProductVm>> GetProductPagings(GetManageProductPagingRequest request)
