@@ -14,6 +14,7 @@
         public class ProductSettings
         {
             public const int NumberOffFeatureProducts = 10;
+            public const int NumberOffLatestProducts = 6;
         }
     }
 }

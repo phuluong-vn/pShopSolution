@@ -86,9 +86,14 @@ namespace pShopSolution.ApiIntergration
             return data;
         }
 
-        public async Task<List<ProductVm>> GetFeatureProduct(string languageId, int take)
+        public async Task<List<ProductVm>> GetFeatureProducts(string languageId, int take)
         {
             return await GetListAsync<ProductVm>($"/api/products/feature/{languageId}/{take}");
+        }
+
+        public async Task<List<ProductVm>> GetLatestProducts(string languageId, int take)
+        {
+            return await GetListAsync<ProductVm>($"/api/products/latest/{languageId}/{take}");
         }
 
         public async Task<PageResult<ProductVm>> GetProductPagings(GetManageProductPagingRequest request)

@@ -43,10 +43,17 @@ namespace pShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
-        [HttpGet("{feature}/{languageId}/{take}")]
-        public async Task<IActionResult> GetAllPaging(string languageId, int take)
+        [HttpGet("feature/{languageId}/{take}")]
+        public async Task<IActionResult> GetFeatureProducts(string languageId, int take)
         {
-            var products = await _productService.GetFeatureProduct(languageId, take);
+            var products = await _productService.GetFeatureProducts(languageId, take);
+            return Ok(products);
+        }
+
+        [HttpGet("latest/{languageId}/{take}")]
+        public async Task<IActionResult> GetLatestProducts(string languageId, int take)
+        {
+            var products = await _productService.GetLatestProducts(languageId, take);
             return Ok(products);
         }
 
